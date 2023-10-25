@@ -14,6 +14,7 @@ import { ToastContainer } from "react-toastify";
 //Boostrap
 import "/node_modules/bootstrap/dist/css/bootstrap.css";
 import "/node_modules/bootstrap/dist/js/bootstrap";
+import "react-toastify/dist/ReactToastify.css";
 
 const store = legacy_createStore(Reducers, compose(applyMiddleware(thunk)));
 
@@ -21,7 +22,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={1000} />
       <PublicRoutes />
     </Provider>
   </React.StrictMode>

@@ -22,6 +22,7 @@ const UserComponent = () => {
 
   const handleViewDetail = (id) => {
     dispatch(getDetailUserAction(id));
+    toast.info(`View detail id ${id}`);
   };
 
   console.log("detailCompt: ", dataDetailUser);
@@ -36,18 +37,13 @@ const UserComponent = () => {
     gender: dataDetailUser.gender,
   };
 
-  const handleToast = () => {
-    toast.success(`Berhasil Delete data User, `);
-  };
-
   const handleDeleteUser = (id) => {
     dispatch(deleteUserDataAction(id));
-    alert(`berhasi hapus id ${id}`);
+    toast.success(`berhasi hapus id ${id}`);
   };
 
   return (
     <>
-      <button onClick={handleToast}>test toast</button>
       <ModalCreate />
       {dataDetailUser && <ModalView data={dataDetail} />}
       <h1>User component</h1>

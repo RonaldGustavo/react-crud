@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { CreateNewUserAction } from "../../Features/UserCRUD/Actions";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 export const ModalCreate = () => {
   const [name, setName] = useState("");
@@ -9,6 +10,7 @@ export const ModalCreate = () => {
   const [gender, setgender] = useState("");
   const [noHp, setnoHp] = useState("");
   const [customerId, setCustomerId] = useState("");
+  // const [isModal, setIsModal] = useState("noModal");
 
   const dispatch = useDispatch();
 
@@ -25,7 +27,8 @@ export const ModalCreate = () => {
     try {
       const create = dispatch(CreateNewUserAction(body));
       console.log("success", create);
-      alert("berhasil simpan user!");
+      toast.success(`berhasi simpan user`);
+
       return create;
     } catch (error) {
       console.log("submit user:", error.message);
@@ -143,6 +146,7 @@ export const ModalCreate = () => {
                   type="button"
                   class="btn btn-primary"
                   onClick={handleCreateUser}
+                  data-bs-dismiss="modal"
                 >
                   Save changes
                 </button>
