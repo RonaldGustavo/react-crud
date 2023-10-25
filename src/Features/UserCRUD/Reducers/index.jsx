@@ -2,6 +2,8 @@ import {
   GET_DATA_USER,
   GET_DETAIL_DATA_USER,
   IS_ERROR_USER,
+  ADD_NEW_USER,
+  DELETE_DATA_USER,
 } from "../../../Constant";
 
 const initialState = {
@@ -32,6 +34,24 @@ const UserReducers = (state = initialState, action) => {
       return {
         ...state,
         dataDetailUser: action.payload.dataDetail,
+        isLoadingDetail: false,
+      };
+
+    case ADD_NEW_USER:
+      return {
+        ...state,
+        dataUser: [...state.dataUser, action.payload.newData],
+      };
+
+    case DELETE_DATA_USER:
+      const deletedUserId = action.payload.deletedUserId;
+      const updatedDataUser = state.dataUser.filter(
+        (user) => user.id !== deletedUserId
+      );
+
+      return {
+        ...state,
+        dataUser: updatedDataUser,
       };
 
     default:

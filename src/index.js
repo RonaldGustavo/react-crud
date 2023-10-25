@@ -9,6 +9,8 @@ import Reducers from "./Config/Reducers";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
 
+import { ToastContainer } from "react-toastify";
+
 //Boostrap
 import "/node_modules/bootstrap/dist/css/bootstrap.css";
 import "/node_modules/bootstrap/dist/js/bootstrap";
@@ -19,6 +21,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+      <ToastContainer position="top-right" autoClose={3000} />
       <PublicRoutes />
     </Provider>
   </React.StrictMode>

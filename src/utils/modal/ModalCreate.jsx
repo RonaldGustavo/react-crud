@@ -1,10 +1,43 @@
-export const ModalView = ({ data }) => {
+import { useState } from "react";
+import { CreateNewUserAction } from "../../Features/UserCRUD/Actions";
+import { useDispatch } from "react-redux";
+
+export const ModalCreate = () => {
+  const [name, setName] = useState("");
+  const [email, setemail] = useState("");
+  const [address, setaddress] = useState("");
+  const [gender, setgender] = useState("");
+  const [noHp, setnoHp] = useState("");
+  const [customerId, setCustomerId] = useState("");
+
+  const dispatch = useDispatch();
+
+  const body = {
+    name: name,
+    email: email,
+    address: address,
+    gender: gender,
+    no_hp: noHp,
+    customer_id: customerId,
+  };
+
+  const handleCreateUser = async () => {
+    try {
+      const create = dispatch(CreateNewUserAction(body));
+      console.log("success", create);
+      alert("berhasil simpan user!");
+      return create;
+    } catch (error) {
+      console.log("submit user:", error.message);
+    }
+  };
+
   return (
     <>
-      <>
+      {
         <div
           className="modal fade"
-          id="exampleModal"
+          id="modalCreate"
           tabIndex={-1}
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
@@ -25,66 +58,75 @@ export const ModalView = ({ data }) => {
               <div className="modal-body">
                 <form>
                   <div className="form-group">
-                    <label>ID</label>
-                    <input
-                      type="text"
-                      value={data.id}
-                      className="input__detail"
-                      disabled
-                    />
-                  </div>
-                  <div className="form-group">
                     <label>Name</label>
                     <input
                       type="text"
-                      value={data.name}
+                      value={name}
                       className="input__detail"
-                      disabled
+                      onChange={(e) => {
+                        setName(e.target.value);
+                      }}
+                      placeholder="input Name"
                     />
                   </div>
                   <div className="form-group">
                     <label>Address</label>
                     <input
                       type="text"
-                      value={data.address}
+                      value={address}
                       className="input__detail"
-                      disabled
+                      onChange={(e) => {
+                        setaddress(e.target.value);
+                      }}
+                      placeholder="input Address"
                     />
                   </div>
                   <div className="form-group">
                     <label>Email</label>
                     <input
                       type="text"
-                      value={data.email}
+                      value={email}
                       className="input__detail"
-                      disabled
+                      onChange={(e) => {
+                        setemail(e.target.value);
+                      }}
+                      placeholder="input Email"
                     />
                   </div>
                   <div className="form-group">
                     <label>Customer_id</label>
                     <input
                       type="text"
-                      value={data.customerId}
+                      value={customerId}
                       className="input__detail"
-                      disabled
+                      onChange={(e) => {
+                        setCustomerId(e.target.value);
+                      }}
+                      placeholder="input CustomerId"
                     />
                   </div>
                   <div className="form-group">
                     <label>Gender</label>
                     <input
                       type="text"
-                      value={data.gender}
+                      value={gender}
                       className="input__detail"
-                      disabled
+                      onChange={(e) => {
+                        setgender(e.target.value);
+                      }}
+                      placeholder="input Gender"
                     />
                   </div>
                   <div className="form-group">
                     <label>No_HP</label>
                     <input
                       type="text"
-                      value={data.noHp}
+                      value={noHp}
                       className="input__detail"
-                      disabled
+                      onChange={(e) => {
+                        setnoHp(e.target.value);
+                      }}
+                      placeholder="input NoHp"
                     />
                   </div>
                 </form>
@@ -97,11 +139,18 @@ export const ModalView = ({ data }) => {
                 >
                   Close
                 </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  onClick={handleCreateUser}
+                >
+                  Save changes
+                </button>
               </div>
             </div>
           </div>
         </div>
-      </>
+      }
     </>
   );
 };

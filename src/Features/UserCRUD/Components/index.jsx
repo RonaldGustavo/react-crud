@@ -1,23 +1,28 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetListUsersAction, getDetailUserAction } from "../Actions";
-import { ModalView } from "../../../utils/modal";
+import {
+  GetListUsersAction,
+  deleteUserDataAction,
+  getDetailUserAction,
+} from "../Actions";
+import { ModalView } from "../../../utils/modal/ModalDetail";
+import { ModalCreate } from "../../../utils/modal/ModalCreate";
+import { toast } from "react-toastify";
 
 const UserComponent = () => {
   const dispatch = useDispatch();
+  const { dataUser, isLoading, isError } = useSelector((data) => data.users);
+  const { dataDetailUser } = useSelector((data) => data.users);
+
   useEffect(() => {
     dispatch(GetListUsersAction());
   }, [dispatch]);
 
-  const { dataUser, isLoading, isError } = useSelector((data) => data.users);
-
   //   console.log("data:", dataUser, "error", isError, "loading", isLoading);
 
   const handleViewDetail = (id) => {
-    return dispatch(getDetailUserAction(id));
+    dispatch(getDetailUserAction(id));
   };
-
-  const { dataDetailUser } = useSelector((data) => data.users);
 
   console.log("detailCompt: ", dataDetailUser);
 
@@ -31,12 +36,30 @@ const UserComponent = () => {
     gender: dataDetailUser.gender,
   };
 
+  const handleToast = () => {
+    toast.success(`Berhasil Delete data User, `);
+  };
+
+  const handleDeleteUser = (id) => {
+    dispatch(deleteUserDataAction(id));
+    alert(`berhasi hapus id ${id}`);
+  };
+
   return (
     <>
+      <button onClick={handleToast}>test toast</button>
+      <ModalCreate />
       {dataDetailUser && <ModalView data={dataDetail} />}
       <h1>User component</h1>
       {isError && <p style={{ color: "red" }}>{isError}</p>}
-
+      <button
+        className="btn btn-primary"
+        style={{ margin: "10px 0px" }}
+        data-bs-target="#modalCreate"
+        data-bs-toggle="modal"
+      >
+        Create
+      </button>
       <table>
         <thead>
           <tr>
@@ -74,14 +97,19 @@ const UserComponent = () => {
                       }}
                     >
                       <button
-                        className="btn btn-primary btn-sm"
-                        data-bs-target="#exampleModal"
-                        data-bs-toggle="modal"
                         onClick={() => handleViewDetail(data.id)}
+                        className="btn btn-primary btn-sm"
+                        data-bs-target="#modalDetail"
+                        data-bs-toggle="modal"
                       >
                         View
                       </button>
-                      <button className="btn btn-danger btn-sm">Delete</button>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => handleDeleteUser(data.id)}
+                      >
+                        Delete
+                      </button>
                       <button className="btn btn-secondary btn-sm">
                         Update
                       </button>
