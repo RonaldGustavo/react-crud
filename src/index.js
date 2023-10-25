@@ -1,13 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+import PublicRoutes from "./Config/Routes/PublicRoutes";
+import { applyMiddleware, compose, legacy_createStore } from "redux";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import Reducers from "./Config/Reducers";
+import thunk from "redux-thunk";
+import { Provider } from "react-redux";
+
+//Boostrap
+import "/node_modules/bootstrap/dist/css/bootstrap.css";
+import "/node_modules/bootstrap/dist/js/bootstrap";
+
+const store = legacy_createStore(Reducers, compose(applyMiddleware(thunk)));
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <PublicRoutes />
+    </Provider>
   </React.StrictMode>
 );
 
