@@ -1,15 +1,19 @@
+import axios from "axios";
 import {
   ADD_NEW_USER,
   DELETE_DATA_USER,
   GET_DATA_USER,
   GET_DETAIL_DATA_USER,
   IS_ERROR_USER,
+  UPDATE_DATA_USER,
+  URL_API,
 } from "../../../Constant";
 import {
   createUserService,
   deleteDataUserService,
   getDetailUserService,
   getListUsersService,
+  updateDataUserService,
 } from "../Services";
 
 export const GetListUsersAction = () => {
@@ -98,6 +102,30 @@ export const deleteUserDataAction = (id) => {
       });
     } catch (error) {
       console.log("error action delete user: ", error.message);
+      dispatch({
+        type: IS_ERROR_USER,
+        payload: {
+          isError: error.message,
+          isLoading: false,
+        },
+      });
+    }
+  };
+};
+
+export const updateUserAction = (id, body) => {
+  return async (dispatch) => {
+    try {
+      const data = await updateDataUserService(id, body);
+      console.log("update data:", data);
+      dispatch({
+        type: UPDATE_DATA_USER,
+        payload: {
+          updateData: data,
+        },
+      });
+    } catch (error) {
+      console.log("error action create user: ", error.message);
       dispatch({
         type: IS_ERROR_USER,
         payload: {

@@ -4,6 +4,7 @@ import {
   IS_ERROR_USER,
   ADD_NEW_USER,
   DELETE_DATA_USER,
+  UPDATE_DATA_USER,
 } from "../../../Constant";
 
 const initialState = {
@@ -52,6 +53,20 @@ const UserReducers = (state = initialState, action) => {
       return {
         ...state,
         dataUser: updatedDataUser,
+      };
+
+    case UPDATE_DATA_USER:
+      const updatedData = action.payload.updateData;
+      const updatedDataUsers = state.dataUser.map((user) => {
+        if (user.id === updatedData.id) {
+          return updatedData;
+        }
+        return user;
+      });
+
+      return {
+        ...state,
+        dataUser: updatedDataUsers,
       };
 
     default:

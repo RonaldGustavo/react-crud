@@ -8,6 +8,7 @@ import {
 import { ModalView } from "../../../utils/modal/ModalDetail";
 import { ModalCreate } from "../../../utils/modal/ModalCreate";
 import { toast } from "react-toastify";
+import { ModalUpdate } from "../../../utils/modal/ModalUpdate";
 
 const UserComponent = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,10 @@ const UserComponent = () => {
   //   console.log("data:", dataUser, "error", isError, "loading", isLoading);
 
   const handleViewDetail = (id) => {
+    dispatch(getDetailUserAction(id));
+    toast.info(`View detail id ${id}`);
+  };
+  const handleUpdate = (id) => {
     dispatch(getDetailUserAction(id));
     toast.info(`View detail id ${id}`);
   };
@@ -44,6 +49,7 @@ const UserComponent = () => {
 
   return (
     <>
+      {dataDetailUser && <ModalUpdate data={dataDetail} />}
       <ModalCreate />
       {dataDetailUser && <ModalView data={dataDetail} />}
       <h1>User component</h1>
@@ -106,7 +112,12 @@ const UserComponent = () => {
                       >
                         Delete
                       </button>
-                      <button className="btn btn-secondary btn-sm">
+                      <button
+                        className="btn btn-secondary btn-sm"
+                        data-bs-target="#modalUpdate"
+                        data-bs-toggle="modal"
+                        onClick={() => handleUpdate(data.id)}
+                      >
                         Update
                       </button>
                     </div>

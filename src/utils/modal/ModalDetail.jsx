@@ -1,4 +1,9 @@
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+
 export const ModalView = ({ data }) => {
+  // const {dataDetailUser: data} = useSelector((data) => data.users);
+
   return (
     <>
       {data && (

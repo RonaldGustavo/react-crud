@@ -31,12 +31,22 @@ export const createUserService = async (body) => {
   }
 };
 
-export const deleteDataUserService = async (id) => {
+export const deleteDataUserService = async (id, body) => {
   try {
-    const response = await axios.delete(`${URL_API}/customers/${id}`);
+    const response = await axios.delete(`${URL_API}/customers/${id}`, body);
     return response.data;
   } catch (error) {
     console.log("deleteDataUserService promise error: ", error.message);
+    throw error;
+  }
+};
+
+export const updateDataUserService = async (id, body) => {
+  try {
+    const response = await axios.put(`${URL_API}/customers/${id}`, body);
+    return response.data;
+  } catch (error) {
+    console.log("updateDataUserService promise error: ", error.message);
     throw error;
   }
 };
