@@ -5,12 +5,11 @@ import { toast } from "react-toastify";
 
 export const ModalCreate = () => {
   const [name, setName] = useState("");
-  const [email, setemail] = useState("");
-  const [address, setaddress] = useState("");
-  const [gender, setgender] = useState("");
-  const [noHp, setnoHp] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [gender, setGender] = useState("");
+  const [noHp, setNoHp] = useState("");
   const [customerId, setCustomerId] = useState("");
-  // const [isModal, setIsModal] = useState("noModal");
 
   const dispatch = useDispatch();
 
@@ -23,9 +22,19 @@ export const ModalCreate = () => {
     customer_id: customerId,
   };
 
+  const handleClear = () => {
+    setName("");
+    setAddress("");
+    setEmail("");
+    setCustomerId("");
+    setGender("");
+    setNoHp("");
+  };
+
   const handleCreateUser = async () => {
     try {
       const create = dispatch(CreateNewUserAction(body));
+      handleClear();
       console.log("success", create);
       toast.success(`berhasi simpan user`);
 
@@ -44,6 +53,7 @@ export const ModalCreate = () => {
           tabIndex={-1}
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
+          data-bs-backdrop="static"
         >
           <div className="modal-dialog">
             <div className="modal-content">
@@ -56,6 +66,7 @@ export const ModalCreate = () => {
                   className="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
+                  onClick={handleClear}
                 />
               </div>
               <div className="modal-body">
@@ -79,7 +90,7 @@ export const ModalCreate = () => {
                       value={address}
                       className="input__detail"
                       onChange={(e) => {
-                        setaddress(e.target.value);
+                        setAddress(e.target.value);
                       }}
                       placeholder="input Address"
                     />
@@ -91,7 +102,7 @@ export const ModalCreate = () => {
                       value={email}
                       className="input__detail"
                       onChange={(e) => {
-                        setemail(e.target.value);
+                        setEmail(e.target.value);
                       }}
                       placeholder="input Email"
                     />
@@ -115,7 +126,7 @@ export const ModalCreate = () => {
                       value={gender}
                       className="input__detail"
                       onChange={(e) => {
-                        setgender(e.target.value);
+                        setGender(e.target.value);
                       }}
                       placeholder="input Gender"
                     />
@@ -127,7 +138,7 @@ export const ModalCreate = () => {
                       value={noHp}
                       className="input__detail"
                       onChange={(e) => {
-                        setnoHp(e.target.value);
+                        setNoHp(e.target.value);
                       }}
                       placeholder="input NoHp"
                     />
@@ -139,6 +150,7 @@ export const ModalCreate = () => {
                   type="button"
                   className="btn btn-secondary"
                   data-bs-dismiss="modal"
+                  onClick={handleClear}
                 >
                   Close
                 </button>

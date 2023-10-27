@@ -1,12 +1,12 @@
-import axios from "axios";
 import {
   ADD_NEW_USER,
   DELETE_DATA_USER,
   GET_DATA_USER,
   GET_DETAIL_DATA_USER,
   IS_ERROR_USER,
+  IS_LOADING,
+  IS_LOADING_DETAIL,
   UPDATE_DATA_USER,
-  URL_API,
 } from "../../../Constant";
 import {
   createUserService,
@@ -18,6 +18,12 @@ import {
 
 export const GetListUsersAction = () => {
   return async (dispatch) => {
+    dispatch({
+      type: IS_LOADING,
+      payload: {
+        isLoading: true,
+      },
+    });
     try {
       //   console.log("data action: ", data);
       const data = await getListUsersService();
@@ -43,9 +49,16 @@ export const GetListUsersAction = () => {
 
 export const getDetailUserAction = (id) => {
   return async (dispatch) => {
+    dispatch({
+      type: IS_LOADING_DETAIL,
+      payload: {
+        isLoadingDetail: true,
+      },
+    });
     try {
       const data = await getDetailUserService(id);
       console.log("data detail:", data);
+
       dispatch({
         type: GET_DETAIL_DATA_USER,
         payload: {

@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { updateUserAction } from "../../Features/UserCRUD/Actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { GET_DETAIL_DATA_USER } from "../../Constant";
 
-export const ModalUpdate = ({ data }) => {
+export const ModalUpdate = () => {
+  const { isLoadingDetail, dataDetailUser } = useSelector((data) => data.users);
+
   const [name, setName] = useState("");
-  const [email, setemail] = useState("");
   const [address, setaddress] = useState("");
-  const [gender, setgender] = useState("");
+  const [email, setemail] = useState("");
   const [noHp, setnoHp] = useState("");
-  const [customerId, setCustomerId] = useState("");
-  // const [isModal, setIsModal] = useState("noModal");
+  const [gender, setgender] = useState("");
+  const [customerId, setcustomerId] = useState("");
 
   const dispatch = useDispatch();
 
@@ -26,33 +26,26 @@ export const ModalUpdate = ({ data }) => {
 
   const handleClear = () => {
     setName("");
-    setemail("");
     setaddress("");
+    setemail("");
+    setcustomerId("");
+    setgender("");
     setnoHp("");
-    setgender("");
-    setgender("");
   };
 
   const handleUpdateUser = async (id) => {
     try {
       const update = dispatch(updateUserAction(id, body));
+      handleClear();
       console.log("success", update);
       toast.success(`berhasi update user`);
-
-      //   if (update.status === 200) {
-      //     dispatch({
-      //       type: GET_DETAIL_DATA_USER,
-      //       payload: {
-      //         dataDetailUser: {},
-      //       },
-      //     });
-      //   }
 
       return update;
     } catch (error) {
       console.log("update user:", error.message);
     }
   };
+  console.log("loading detail:", isLoadingDetail);
 
   return (
     <>
@@ -63,6 +56,7 @@ export const ModalUpdate = ({ data }) => {
           tabIndex={-1}
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
+          data-bs-backdrop="static"
         >
           <div className="modal-dialog">
             <div className="modal-content">
@@ -79,90 +73,80 @@ export const ModalUpdate = ({ data }) => {
                 />
               </div>
               <div className="modal-body">
-                <form>
-                  <div className="form-group">
-                    <label>ID</label>
-                    <input
-                      type="text"
-                      value={data.id}
-                      className="input__detail"
-                      disabled
-                      placeholder={data.id}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Name</label>
-                    <input
-                      type="text"
-                      value={name}
-                      className="input__detail"
-                      onChange={(e) => {
-                        setName(e.target.value);
-                      }}
-                      placeholder={data.name}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Address</label>
-                    <input
-                      type="text"
-                      value={address}
-                      className="input__detail"
-                      onChange={(e) => {
-                        setaddress(e.target.value);
-                      }}
-                      placeholder={data.address}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Email</label>
-                    <input
-                      type="text"
-                      value={email}
-                      className="input__detail"
-                      onChange={(e) => {
-                        setemail(e.target.value);
-                      }}
-                      placeholder={data.email}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Customer_id</label>
-                    <input
-                      type="text"
-                      value={customerId}
-                      className="input__detail"
-                      onChange={(e) => {
-                        setCustomerId(e.target.value);
-                      }}
-                      placeholder={data.customerId}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Gender</label>
-                    <input
-                      type="text"
-                      value={gender}
-                      className="input__detail"
-                      onChange={(e) => {
-                        setgender(e.target.value);
-                      }}
-                      placeholder={data.gender}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>No_HP</label>
-                    <input
-                      type="text"
-                      value={noHp}
-                      className="input__detail"
-                      onChange={(e) => {
-                        setnoHp(e.target.value);
-                      }}
-                      placeholder={data.noHp}
-                    />
-                  </div>
-                </form>
+                {isLoadingDetail ? (
+                  <p>is Loading...</p>
+                ) : (
+                  <form>
+                    <div className="form-group">
+                      <label>ID</label>
+                      <input
+                        type="text"
+                        value={dataDetailUser.id}
+                        className="input__detail"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Name</label>
+                      <input
+                        type="text"
+                        value={name}
+                        className="input__detail"
+                        placeholder={dataDetailUser.name}
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Address</label>
+                      <input
+                        type="text"
+                        value={address}
+                        className="input__detail"
+                        placeholder={dataDetailUser.address}
+                        onChange={(e) => setaddress(e.target.value)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Email</label>
+                      <input
+                        type="text"
+                        value={email}
+                        className="input__detail"
+                        placeholder={dataDetailUser.email}
+                        onChange={(e) => setemail(e.target.value)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Customer_id</label>
+                      <input
+                        type="text"
+                        value={customerId}
+                        className="input__detail"
+                        placeholder={dataDetailUser.customer_id}
+                        onChange={(e) => setcustomerId(e.target.value)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Gender</label>
+                      <input
+                        type="text"
+                        value={gender}
+                        className="input__detail"
+                        placeholder={dataDetailUser.gender}
+                        onChange={(e) => setgender(e.target.value)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>No_HP</label>
+                      <input
+                        type="text"
+                        value={noHp}
+                        className="input__detail"
+                        placeholder={dataDetailUser.no_hp}
+                        onChange={(e) => setnoHp(e.target.value)}
+                      />
+                    </div>
+                  </form>
+                )}
               </div>
               <div className="modal-footer">
                 <button
@@ -176,7 +160,7 @@ export const ModalUpdate = ({ data }) => {
                 <button
                   type="button"
                   class="btn btn-primary"
-                  onClick={() => handleUpdateUser(data.id)}
+                  onClick={() => handleUpdateUser(dataDetailUser.id)}
                   data-bs-dismiss="modal"
                 >
                   Save changes

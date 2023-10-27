@@ -5,12 +5,15 @@ import {
   ADD_NEW_USER,
   DELETE_DATA_USER,
   UPDATE_DATA_USER,
+  IS_LOADING_DETAIL,
+  IS_LOADING,
 } from "../../../Constant";
 
 const initialState = {
   dataUser: [],
   dataDetailUser: {},
-  isLoading: true,
+  isLoading: false,
+  isLoadingDetail: false,
   isError: false,
 };
 
@@ -67,6 +70,17 @@ const UserReducers = (state = initialState, action) => {
       return {
         ...state,
         dataUser: updatedDataUsers,
+      };
+
+    case IS_LOADING_DETAIL:
+      return {
+        ...state,
+        isLoadingDetail: action.payload.isLoadingDetail,
+      };
+    case IS_LOADING:
+      return {
+        ...state,
+        isLoading: action.payload.isLoading,
       };
 
     default:
